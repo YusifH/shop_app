@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/size_config.dart';
+
+import '../../components/default_button.dart';
+import '../sign_in/sign_in_screen.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -10,17 +14,18 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  int currentPage = 0;
   List<Map<String, String>>  splashData = [
     {
-      "text": "Welcome to Tokoto, Let's shop!",
+      "text": "eShop-a xoş gelmisiniz, Başlayaq?",
       "image": "assets/images/splash_1.png"
     },
     {
-      "text": "Welcome to Tokoto, Let's shop!",
+      "text": "Axtardığınız her şey eShop-da",
       "image": "assets/images/splash_2.png"
     },
     {
-      "text": "We show the easy way to shop. \nJust stay at home with us",
+      "text": "Yüzlerle brend mağazalar. \nBir Toxunuş qeder yaxın.",
       "image": "assets/images/splash_3.png"
     },
   ];
@@ -34,18 +39,65 @@ class _BodyState extends State<Body> {
           Expanded(
               flex: 3,
               child: PageView.builder(
+                onPageChanged: (value){
+                  setState(() {
+                    currentPage = value;
+                  });
+                },
                 itemCount: splashData.length,
                 itemBuilder: (context, index) => SplashContent(
                   text: splashData[index]["text"] ?? '',
                   img: splashData[index]["image"] ?? '',
                 ),
               )),
-          Expanded(flex: 2, child: SizedBox())
+          Spacer(flex: 1,),
+          Expanded(
+              flex: 2,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                            children: List.generate(splashData.length, (index) => buildDot(index: index))
+                        )
+                      ],
+                    ),
+                    Spacer(flex: 3,),
+                    DefaultButton(
+                        press: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const SignInScreen()),
+                          );
+                        },
+                        text: 'Davam Et'),
+                    Spacer()
+                  ],
+                ),
+              )
+          )
         ],
       ),
     ));
   }
+
+  AnimatedContainer buildDot({required int index}) {
+    return AnimatedContainer(
+      duration: kAnimationDuration,
+      margin: EdgeInsets.only(right: 5),
+                  width: currentPage == index ? 20 :6,
+                  height: 6,
+                  decoration: BoxDecoration(
+                    color: currentPage == index ? kPrimaryColor : Color(0xFFD8D8D8D),
+                    borderRadius: BorderRadius.circular(5)
+                  ),
+                );
+  }
 }
+
 
 class SplashContent extends StatelessWidget {
   const SplashContent({
@@ -61,7 +113,7 @@ class SplashContent extends StatelessWidget {
       children: [
         Spacer(),
         Text(
-          'TOKOTO',
+          'eShop',
           style: TextStyle(
               fontSize: getProportionateScreenWidth(36),
               color: kPrimaryColor,
