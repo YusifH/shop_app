@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shop_app/components/default_button.dart';
 import 'package:shop_app/constants.dart';
 import 'package:shop_app/screens/home/home_screen.dart';
+import 'package:shop_app/screens/sign_in_success/sign_in_success.dart';
 import 'package:shop_app/size_config.dart';
 
 class Body extends StatelessWidget {
@@ -12,18 +13,20 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20),),
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              children: [
-                Text("Xoş Gelmisiniz", style: TextStyle(fontSize: getProportionateScreenWidth(28), fontWeight: FontWeight.bold),),
-                Text('Email ve ya sosial mediya hesabinizla \n daxil olun',
-                  textAlign: TextAlign.center,
-                ),
-                SignInForm()
-              ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20),),
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                children: [
+                  Text("Xoş Gelmisiniz", style: TextStyle(fontSize: getProportionateScreenWidth(28), fontWeight: FontWeight.bold),),
+                  Text('Email ve ya sosial mediya hesabinizla \n daxil olun',
+                    textAlign: TextAlign.center,
+                  ),
+                  SignInForm()
+                ],
+              ),
             ),
           ),
         )
@@ -138,7 +141,7 @@ class _SignInFormState extends State<SignInForm> {
             DefaultButton(press: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const HomeScreen()),
+                MaterialPageRoute(builder: (context) => const SignInSuccess()),
               );
             }, text: 'Daxil ol',)
           ],
